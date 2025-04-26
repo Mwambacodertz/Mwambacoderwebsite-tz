@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Battleship Mini</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial;
+      margin-top: 50px;
+      background-color: #eef;
+    }
+    h1 {
+      color: navy;
+    }
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(5, 60px);
+      grid-gap: 5px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .cell {
+      width: 60px;
+      height: 60px;
+      background-color: #ccc;
+      border: 1px solid #888;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .cell.hit {
+      background-color: green;
+    }
+    .cell.miss {
+      background-color: red;
+    }
+    #message {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: darkblue;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Battleship Mini</h1>
+  <div id="grid"></div>
+  <div id="message">Tap a cell to fire!</div>
+
+  <script>
+    const gridSize = 5;
+    const grid = document.getElementById("grid");
+    const message = document.getElementById("message");
+
+    // Random ship position
+    const shipRow = Math.floor(Math.random() * gridSize);
+    const shipCol = Math.floor(Math.random() * gridSize);
+
+    function fire(row, col, cell) {
+      if (row === shipRow && col === shipCol) {
+        cell.classList.add("hit");
+        cell.textContent = "X";
+        message.textContent = "Hit! You sunk the ship!";
+      } else {
+        cell.classList.add("miss");
+        cell.textContent = "O";
+        message.textContent = "Miss! Try again.";
+      }
+      cell.onclick = null; // Disable after clicking
+    }
+
+    // Build the grid
+    for (let row = 0; row < gridSize; row++) {
+      for (let col = 0; col < gridSize; col++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        cell.onclick = () => fire(row, col, cell);
+        grid.appendChild(cell);
+      }
+    }
+  </script>
+
+</body>
+</html>
